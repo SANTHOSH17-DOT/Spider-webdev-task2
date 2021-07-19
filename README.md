@@ -1,5 +1,23 @@
-Basic mode > Space War
+# spider-webdev
 
-Sub-tasks > Spaceship and white spikes motion > Game score > Timer for diff game levels > bonus points > Add. features
+# Basic mode
 
-Idea > Spaceship design and shooting ability > White spikes design > 10 points/kill + bonus for killing streak > 10 levels in total > Increase in number of aliens and random incoming positions as level increases > Change the trajectory of whitespikes as the level increases > Bonus points for 5th and 10th level
+Space War
+
+# Sub-tasks
+
+1. Spaceship and white spikes motion
+2. Game score
+3. Timer for diff game levels
+4. bonus points
+5. Add. features
+
+# Idea
+
+1. Spaceship design and shooting ability
+2. White spikes design
+3. 10 points/kill + bonus for killing streak
+4. 10 levels in total
+5. Increase in number of aliens and random incoming positions as level increases
+6. Change the trajectory of whitespikes as the level increases
+7. Bonus points for 5th and 10th level
