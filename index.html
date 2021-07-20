@@ -8,6 +8,61 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id='intro'>
+        <div id='intro-head'>
+            <div><canvas id='alienIcon'></canvas></div>
+        <div style="position:absolute;top:500px;right:75%;">
+            <h1>Space War</h1>
+        <p>Basic mode</p>
+        </div>
+        <div><canvas id='spaceShipIcon'></canvas></div>
+
+        </div>
+        
+        
+        <div id='playBtn'></div>
+        
+    </div>
+    <div id='game'>
+        
+        <div id="scores">
+            <div id="score">
+                <h1 style="position: relative;top: 30px;font-size: 30px;">Score</h1>
+                <p id='points'>0</p>
+            </div>
+            <div id="highscore">
+                <h1  style="position: relative;top: 30px;font-size: 30px;">Highscore</h1>
+                <p id="pDetails">0</p>
+            </div>
+        </div>
+        <canvas id='gameArea'></canvas>
+        <div id='reset'><i class="fas fa-redo-alt"></i></div>
+        <div style="width:100%;display:flex;flex-direction:row;justify-content:space-around;font-size: 30px; color: white;text-shadow: 2px 2px 2px black;"><p>
+            <div>Click anywhere to <b>SHOOT</b> <i class="fas fa-mouse"></i></div>
+            <div>Use arrow keys to<b> MOVE</b> 󠀠󠀠<i class="fas fa-arrows-alt"></i></div>
+            
+        </p></div>
+    </div>
+    <script src="https://kit.fontawesome.com/f4289c64ac.js" crossorigin="anonymous"></script>
     <script src="app.js"></script>
+    <script src="three.r119.min.js"></script>
+<script src="vanta.dots.min.js"></script>
+<script>
+VANTA.DOTS({
+  el: "#intro",
+  mouseControls: true,
+  touchControls: true,
+  gyroControls: false,
+  minHeight: 200.00,
+  minWidth: 200.00,
+  scale: 1.00,
+  scaleMobile: 1.00,
+  color: 0xffffff,
+  color2: 0xffffff,
+  backgroundColor: 0x60322,
+  size: 1.80,
+  spacing: 64.00
+})
+</script>
 </body>
 </html>

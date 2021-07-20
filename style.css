@@ -1,0 +1,76 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#intro {
+  height: 100vh;
+  color: white;
+  text-align: center;
+  font-size: 2rem;
+  padding: 50px;
+}
+
+#intro-head {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#playBtn {
+  clip-path: polygon(100% 51%, 0 0, 0 100%);
+  background: white;
+  height: 75px;
+  width: 75px;
+  position: absolute;
+  top: 85%;
+  left: 90%;
+  transition: all ease 300ms;
+  cursor: pointer;
+}
+#playBtn:hover {
+  transform: scale(1.2);
+  background: linear-gradient(-120deg, red 30%, blue);
+}
+#scores {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 800px;
+  color: rgb(245, 26, 26);
+}
+#points,
+#pDetails {
+  font-size: 40px;
+  position: relative;
+  top: 40px;
+}
+#game {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+}
+#gameArea {
+  background: rgb(6, 6, 56);
+}
+#reset {
+  display: none;
+}
+.fa-redo-alt {
+  display: none;
+  font-size: 100px;
+  position: absolute;
+  top: 350px;
+  left: 47%;
+  color: white;
+  cursor: pointer;
+  transition: all ease 300ms;
+}
+.fa-redo-alt:hover {
+  color: rgb(136, 127, 127);
+  transform: rotateZ(120deg);
+}
