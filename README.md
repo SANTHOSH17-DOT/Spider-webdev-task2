@@ -17,7 +17,7 @@ Space War
 1. Spaceship design and shooting ability
 2. White spikes design
 3. 10 points/kill + bonus for killing streak
-4. 10 levels in total
+4. 5 levels in total
 5. Increase in number of aliens and random incoming positions as level increases
 6. Change the trajectory of whitespikes as the level increases
-7. Bonus points for 5th and 10th level
+7. Bonus points for 3rd and 5th level

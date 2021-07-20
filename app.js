@@ -91,12 +91,13 @@ whiteSpikes(1,ctxA1);
 
 
 //game page
-
+document.querySelector('#pDetails').innerHTML = highScore;
 //game area
 var aliens = [];
 var bullets = [];
 var spacer;
-var hit;
+var hit = false;
+var curDead;
 function startGame(){
     gameArea.start();
     spacer = new spaceship(100,200);
@@ -126,6 +127,24 @@ function spaceship(x,y){
         ship(2,ctx);
         ctx.translate(-this.x,-this.y);
     }
+    this.shipW=(alien)=>{
+            crash = true;
+            shipL = this.x-65;
+            shipR = this.x-5;
+            shipT = this.y-70/2;
+            shipB = this.y+70/2;
+            alienT = alien.y-50/3;
+            alienB = alien.y + 50/3;
+            alienR = alien.x + 50/3;
+            alienL = alien.x-50/3;
+            
+            if(alienL>shipR||alienR<shipL||alienT>shipB||alienB<shipT){
+                
+                crash = false;
+            }
+            return crash;
+        
+    }
     
 }
 function whiteSpike(x,y){
@@ -153,13 +172,17 @@ function bullet(x,y,radius,color){
         ctx.translate(-this.x,-this.y);
     }
     this.kill=()=>{
-        hit = false;
+        kill = false;
         for(i=0;i<aliens.length;i++){
+            
             if(this.radius+80/3>Math.sqrt((this.x-aliens[i].x)**2+(this.y-aliens[i].y)**2)){
-                hit = true;
                 
+                kill = true;
+                curDead = i;
+                break;
             }
         }
+        return kill;
     }
 }
 window.addEventListener('keydown',()=>{
@@ -192,38 +215,104 @@ window.addEventListener('keydown',()=>{
 window.addEventListener('click',()=>{
     bullets.push(new bullet(spacer.x,spacer.y,10,'gold'));
 })
-
+var freq = 100;
+var pos = 2;
+var num = 1;
 function updateGame(){
-
     
-        if(hit){
-            console.log(document.querySelector('#points').textContent);
-            hit = false;
+    kill = false
+    
+    for(i=0;i<bullets.length;i++){
+        kill = bullets[i].kill();
+        if(kill==true){
+            aliens.splice(curDead,1);
+            bullets.splice(i,1);
+            curDead = null;
+        }
+        break;
+    }
+    
+    
+        if(kill){
+            console.log('killed it');
+            points = document.querySelector('#points').textContent;
+            document.querySelector('#points').textContent=parseInt(points)+10;
+            kill = false;
             //document.querySelector('#points').textContent +=10;
         }
     
+   gameover = false;
+   for(i=0;i<aliens.length;i++){
+       if(spacer.shipW(aliens[i]) == true){
+           gameover = true;
+           break;
+       }
+   }
+   if(gameover){
+       gameArea.stop();
+       var points = parseInt(document.querySelector('#points').textContent);
+        if(points>highScore){
+            localStorage.setItem('highScore',points);
+            document.querySelector('#pDetails').innerHTML = points;
+        }
+       document.querySelector('.fa-redo-alt').style.display = 'block';
+        document.querySelector('#reset').style.display = 'block';
+        gameArea.canvas.style.opacity = 0.4;
+   }
+   else{
     gameArea.clear();
     spacer.update();
-    
+    console.log(gameArea.frameNo);
     for(i=0;i<bullets.length;i++){
-        bullets[i].x +=20;
+        if(bullets[i].x>800){
+            bullets.splice(i,1);
+        }else{
+            bullets[i].x +=20;
         bullets[i].update();
+        }
+        
     }
     for(i=0;i<aliens.length;i++){
         aliens[i].x -=0.5;
         aliens[i].update();
     }
-    if(gameArea.frameNo%400==0 ){
-        decision = Math.floor(Math.random()*2)+1;
-
-        aliens.push(new whiteSpike(800,decision*100));
+    
+    if(gameArea.frameNo%500==0 & gameArea.frameNo!=0){
+        freq+=30;
+        pos+=1;
+        num+=1;
+    }
+    if(gameArea.frameNo%freq==0 ){
+        decision = Math.floor(Math.random()*pos)+1;
+        
+        for(i=1;i<=num;i++){
+            aliens.push(new whiteSpike(800+200*(i-1),decision*100));
+        }
+        
     }
     gameArea.frameNo+=0.5;
+   }
+    
 }
 //play btn
 play = document.querySelector('#playBtn');
 play.addEventListener('click',()=>{
     document.querySelector('#game').style.display = 'flex';
     document.querySelector('#intro').style.display = 'none';
+    document.querySelector('#points').innerHTML = 0;
+    startGame();
+    aliens = [];
 });
-startGame();
+
+const resetBtn = document.querySelector('#reset');
+resetBtn.addEventListener('click',()=>{
+    
+    document.querySelector('.fa-redo-alt').style.display = '';
+    document.querySelector('#reset').style.display = '';
+    
+    document.querySelector('#intro').style.display = 'flex';
+    document.querySelector('#game').style.display = 'none';
+    gameArea.canvas.style.opacity = 1;
+    document.querySelector('body').style.cursor = 'auto';
+    
+});
