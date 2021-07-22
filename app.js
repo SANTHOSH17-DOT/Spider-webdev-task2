@@ -97,6 +97,9 @@ document.querySelector('#pDetails').innerHTML = highScore;
 var alienkill = new sound('alienkill.wav');
 var levelup = new sound('levelup.wav');
 var bulletSound = new sound('bullet.wav');
+var play = new sound('play.wav');
+var death = new sound('Death.wav');
+var complete = new sound('Complete.wav');
 //game area
 var aliens = [];
 var bullets = [];
@@ -307,6 +310,7 @@ function updateGame(){
         document.querySelector('#reset').style.display = 'block';
         gameArea.canvas.style.opacity = 0.4;
         clearInterval(interval);remTime = 31;
+        death.start();
    }
    else{
     gameArea.clear();
@@ -340,9 +344,7 @@ function updateGame(){
         gameArea.context.fillText('killing streak +25',spacer.x+20,spacer.y-20);
        setTimeout(()=>{streak=0},2000);
     }
-    // Game levels
-    //Dont't depend only on the frameNo for level advancement,
-    // think abt the count of aliens
+    
         
         gameArea.context.fillStyle = 'yellow';
         gameArea.context.font = '25px Arial';
@@ -408,6 +410,7 @@ function updateGame(){
     gameArea.frameNo+=0.5;
    }
    if(level==6){
+       complete.start();
     gameArea.stop();
     gameArea.clear();
     clearInterval(interval);
@@ -446,6 +449,9 @@ play.addEventListener('click',()=>{
     document.querySelector('#game').style.pointerEvents = 'all';
     startGame();
     clearInterval(interval);
+    complete.stop();
+    death.stop();
+    play.start();
     interval = setInterval(()=>{
         
         remTime -=1;
