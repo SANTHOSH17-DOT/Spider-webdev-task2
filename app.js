@@ -97,7 +97,7 @@ document.querySelector('#pDetails').innerHTML = highScore;
 var alienkill = new sound('alienkill.wav');
 var levelup = new sound('levelup.wav');
 var bulletSound = new sound('bullet.wav');
-var play = new sound('play.wav');
+var playgame = new sound('play.wav');
 var death = new sound('Death.wav');
 var complete = new sound('Complete.wav');
 //game area
@@ -451,7 +451,7 @@ play.addEventListener('click',()=>{
     clearInterval(interval);
     complete.stop();
     death.stop();
-    play.start();
+    playgame.start();
     interval = setInterval(()=>{
         
         remTime -=1;
