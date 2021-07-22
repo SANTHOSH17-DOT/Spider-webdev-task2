@@ -20,4 +20,4 @@ Space War
 4. 5 levels in total
 5. Increase in number of aliens and random incoming positions as level increases
 6. Change the trajectory of whitespikes as the level increases
-7. Bonus points for 3rd and 5th level
+7. Level completion bonus

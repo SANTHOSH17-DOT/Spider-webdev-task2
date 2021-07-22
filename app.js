@@ -21,7 +21,7 @@ function ship(x,ctxm){
     //body
     ctxm.fillStyle ='blue';
     ctxm.strokeStyle = 'black';
-    ctxm.lineWidth = 5;
+    ctxm.lineWidth = 2.5;
 
     ctxm.beginPath();
     ctxm.moveTo(0,0);
@@ -38,7 +38,7 @@ function ship(x,ctxm){
     //wings
     ctxm.fillStyle= 'red';
     ctxm.strokeStyle = 'black';
-    ctxm.lineWidth = 5;
+    ctxm.lineWidth = 2.5;
     ctxm.beginPath();
     ctxm.moveTo(-50/x,-70/x);
     ctxm.lineTo(-130/x,-70/x);
@@ -50,7 +50,7 @@ function ship(x,ctxm){
 
     ctxm.fillStyle= 'red';
     ctxm.strokeStyle = 'black';
-    ctxm.lineWidth = 5;
+    ctxm.lineWidth = 2.5;
     ctxm.beginPath();
     ctxm.moveTo(-50/x,70/x);
     ctxm.lineTo(-130/x,70/x);
@@ -93,6 +93,10 @@ whiteSpikes(1,ctxA1);
 
 //game page
 document.querySelector('#pDetails').innerHTML = highScore;
+
+var alienkill = new sound('alienkill.wav');
+var levelup = new sound('levelup.wav');
+var bulletSound = new sound('bullet.wav');
 //game area
 var aliens = [];
 var bullets = [];
@@ -148,9 +152,16 @@ function spaceship(x,y){
     }
     
 }
-function whiteSpike(x,y){
+function whiteSpike(x,y,dec){
     this.x = x;
     this.y = y;
+    
+    if(dec==1){
+        this.up = false;
+    }else{
+        this.up = true;
+    }
+    
     this.update = function(){
         ctx = gameArea.context;
         ctx.translate(this.x,this.y);
@@ -213,8 +224,13 @@ window.addEventListener('keydown',()=>{
     }
     
 });
-window.addEventListener('click',()=>{
-    bullets.push(new bullet(spacer.x,spacer.y,10,'gold'));
+document.querySelector('#game').addEventListener('click',()=>{
+    try{
+        bullets.push(new bullet(spacer.x,spacer.y,10,'gold'));
+        
+        bulletSound.start();
+    }
+    catch{}
 });
 
 
@@ -222,12 +238,21 @@ var level = 1;
 var levelComp = 0;
 var alienPos = 3;
 var freq = 125;
-var alienSpeed = 0.25;
+var num = 1;
+var alienSpeed = 1;
 var killStreak = 0;
 var streak = 0;
 var streakPoint = 0;
+var remTime = 31;
+    var interval = setInterval(()=>{
+        
+        remTime -=1;
+        
+    },1000);
 function updateGame(){
-    console.log(killStreak);
+    if(remTime==0){
+        remTime = 31;
+    }
     kill = false;
     i = 0;
     bullen = bullets.length;
@@ -244,6 +269,7 @@ function updateGame(){
         if(kill==true){
             killStreak +=1;
             aliens.splice(curDead,1);
+            alienkill.start();
             // Something is wrong with splice
             //console.log(i);
            // console.log(bullets[i]);
@@ -275,9 +301,12 @@ function updateGame(){
             localStorage.setItem('highScore',points);
             document.querySelector('#pDetails').innerHTML = points;
         }
+        document.querySelector('#game').style.pointerEvents = 'none';
+        document.querySelector('#game').style.cursor = 'pointer';
        document.querySelector('.fa-redo-alt').style.display = 'block';
         document.querySelector('#reset').style.display = 'block';
         gameArea.canvas.style.opacity = 0.4;
+        clearInterval(interval);remTime = 31;
    }
    else{
     gameArea.clear();
@@ -294,7 +323,7 @@ function updateGame(){
         
     }
     // killing streak bonus
-    if(killStreak==3 &&killStreak!=0){
+    if(killStreak==5 &&killStreak!=0){
         streakPoint = 1;
         streak = 1;
         killStreak=0;
@@ -324,16 +353,17 @@ function updateGame(){
         }
         
     
-        if(gameArea.frameNo%1000==0 &&gameArea.frameNo!=0){
+        if(gameArea.frameNo%750==0 &&gameArea.frameNo!=0){
             if(level!=6){
                 level +=1;
+                levelup.start();
             points = document.querySelector('#points').textContent;
             document.querySelector('#points').textContent=parseInt(points)+50;
-            alienPos +=2;
-            freq-=25;
-            alienSpeed +=1;
+            alienPos +=1.25;
+            freq-=20;
+            alienSpeed +=0.5;
             levelComp = 1;
-        
+                num+=1;
             
             }
             
@@ -341,11 +371,27 @@ function updateGame(){
         if(levelComp == 1){
             gameArea.context.fillStyle = 'lightgreen';
             gameArea.context.font = '20px Arial';
-            gameArea.context.fillText('level completion bonus +50',150,30);
+            gameArea.context.fillText('level completion bonus +50',180,30);
             
         setTimeout(()=>{levelComp =0;},2000);
         }
+        
     for(i=0;i<aliens.length;i++){
+        if(aliens[i].y>350){
+            aliens[i].up = true;
+        }else if(aliens[i].y<50){
+            aliens[i].up = false;
+        }
+        
+        if(level>=3){
+            console.log('s');
+            if(aliens[i].up ==true){
+                aliens[i].y-=alienSpeed;
+            }else{
+                aliens[i].y+=alienSpeed;
+            }
+            
+        }
         aliens[i].x -=alienSpeed;
         aliens[i].update();
     }
@@ -354,8 +400,8 @@ function updateGame(){
     if(gameArea.frameNo%freq==0 ){
         decision = Math.floor(Math.random()*alienPos)+1;
         
-        for(i=1;i<=1;i++){
-            aliens.push(new whiteSpike(800+100*(i-1),decision*100));
+        for(i=1;i<=num;i++){
+            aliens.push(new whiteSpike(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2)));
         }
         
     }
@@ -364,7 +410,8 @@ function updateGame(){
    if(level==6){
     gameArea.stop();
     gameArea.clear();
-    
+    clearInterval(interval);
+    remTime = 31;
     
        var points = parseInt(document.querySelector('#points').textContent);
         if(points>highScore){
@@ -374,16 +421,21 @@ function updateGame(){
         gameArea.context.fillStyle = 'red';
         gameArea.context.font = '40px Arial';
         gameArea.context.fillText('Game Over',300,200);
+        document.querySelector('#game').style.pointerEvents = 'none';
+        document.querySelector('#game').style.cursor = 'pointer';
         setTimeout(()=>{
             document.querySelector('.fa-redo-alt').style.display = 'block';
         document.querySelector('#reset').style.display = 'block';
         gameArea.canvas.style.opacity = 0.4;
         },1000);
        
-        
     
 }
-    
+
+ctx = gameArea.context;
+ctx.fillStyle = 'yellow';
+ctx.font='30px Arial';
+ctx.fillText(remTime,750,375);
 }
 //play btn
 play = document.querySelector('#playBtn');
@@ -391,8 +443,24 @@ play.addEventListener('click',()=>{
     document.querySelector('#game').style.display = 'flex';
     document.querySelector('#intro').style.display = 'none';
     document.querySelector('#points').innerHTML = 0;
+    document.querySelector('#game').style.pointerEvents = 'all';
     startGame();
+    clearInterval(interval);
+    interval = setInterval(()=>{
+        
+        remTime -=1;
+        
+    },1000);
     aliens = [];
+    level = 1;
+    
+ levelComp = 0;
+ alienPos = 3;
+ freq = 125;
+ alienSpeed = 0.25;
+ killStreak = 0;
+ streak = 0;
+ streakPoint = 0;
 });
 
 const resetBtn = document.querySelector('#reset');
@@ -407,3 +475,15 @@ resetBtn.addEventListener('click',()=>{
     document.querySelector('body').style.cursor = 'auto';
     
 });
+function sound(src){
+    this.sound = document.createElement('audio');
+    this.sound.src = src;
+    this.sound.style.display = 'none';
+    document.body.appendChild = this.sound;
+    this.start = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
+}
