@@ -20,6 +20,7 @@ function ship(x,ctxm){
     
     //body
     ctxm.fillStyle ='blue';
+    ctxm.strokeStyle = 'black';
     ctxm.lineWidth = 5;
 
     ctxm.beginPath();
@@ -175,7 +176,7 @@ function bullet(x,y,radius,color){
         kill = false;
         for(i=0;i<aliens.length;i++){
             
-            if(this.radius+80/3>Math.sqrt((this.x-aliens[i].x)**2+(this.y-aliens[i].y)**2)){
+            if(this.radius+80/3>=Math.sqrt((this.x-aliens[i].x)**2+(this.y-aliens[i].y)**2)){
                 
                 kill = true;
                 curDead = i;
@@ -214,32 +215,51 @@ window.addEventListener('keydown',()=>{
 });
 window.addEventListener('click',()=>{
     bullets.push(new bullet(spacer.x,spacer.y,10,'gold'));
-})
-var freq = 100;
-var pos = 2;
-var num = 1;
+});
+
+
+var level = 1;
+var levelComp = 0;
+var alienPos = 3;
+var freq = 125;
+var alienSpeed = 0.25;
+var killStreak = 0;
+var streak = 0;
+var streakPoint = 0;
 function updateGame(){
+    console.log(killStreak);
+    kill = false;
+    i = 0;
+    bullen = bullets.length;
     
-    kill = false
-    
-    for(i=0;i<bullets.length;i++){
-        kill = bullets[i].kill();
-        if(kill==true){
-            aliens.splice(curDead,1);
-            bullets.splice(i,1);
-            curDead = null;
+    for(let i=0;i<bullen;i++){
+        
+        try{
+            kill = bullets[i].kill();
         }
-        break;
-    }
-    
-    
-        if(kill){
-            console.log('killed it');
+        catch{
+
+        }
+        
+        if(kill==true){
+            killStreak +=1;
+            aliens.splice(curDead,1);
+            // Something is wrong with splice
+            //console.log(i);
+           // console.log(bullets[i]);
+            bullets.splice(i,1);
+            
+            curDead = null;
             points = document.querySelector('#points').textContent;
             document.querySelector('#points').textContent=parseInt(points)+10;
             kill = false;
-            //document.querySelector('#points').textContent +=10;
+            i-=1;
         }
+    }
+    
+    
+    
+        
     
    gameover = false;
    for(i=0;i<aliens.length;i++){
@@ -262,36 +282,107 @@ function updateGame(){
    else{
     gameArea.clear();
     spacer.update();
-    console.log(gameArea.frameNo);
+    
     for(i=0;i<bullets.length;i++){
         if(bullets[i].x>800){
+            killStreak = 0;
             bullets.splice(i,1);
         }else{
-            bullets[i].x +=20;
-        bullets[i].update();
+            bullets[i].x +=10;
+            bullets[i].update();
         }
         
     }
+    // killing streak bonus
+    if(killStreak==3 &&killStreak!=0){
+        streakPoint = 1;
+        streak = 1;
+        killStreak=0;
+             
+    }
+    if(streakPoint==1){
+        points = document.querySelector('#points').textContent;
+            document.querySelector('#points').textContent=parseInt(points)+25;
+            streakPoint =0;
+    }
+    if(streak==1){
+        gameArea.context.fillStyle = 'lightgreen';
+        gameArea.context.font = '15px Arial';
+        gameArea.context.fillText('killing streak +25',spacer.x+20,spacer.y-20);
+       setTimeout(()=>{streak=0},2000);
+    }
+    // Game levels
+    //Dont't depend only on the frameNo for level advancement,
+    // think abt the count of aliens
+        
+        gameArea.context.fillStyle = 'yellow';
+        gameArea.context.font = '25px Arial';
+        if(level==5){
+            gameArea.context.fillText(`LAST LEVEL`,20,30);
+        }else{
+            gameArea.context.fillText(`LEVEL-${level}`,20,30);
+        }
+        
+    
+        if(gameArea.frameNo%1000==0 &&gameArea.frameNo!=0){
+            if(level!=6){
+                level +=1;
+            points = document.querySelector('#points').textContent;
+            document.querySelector('#points').textContent=parseInt(points)+50;
+            alienPos +=2;
+            freq-=25;
+            alienSpeed +=1;
+            levelComp = 1;
+        
+            
+            }
+            
+        }
+        if(levelComp == 1){
+            gameArea.context.fillStyle = 'lightgreen';
+            gameArea.context.font = '20px Arial';
+            gameArea.context.fillText('level completion bonus +50',150,30);
+            
+        setTimeout(()=>{levelComp =0;},2000);
+        }
     for(i=0;i<aliens.length;i++){
-        aliens[i].x -=0.5;
+        aliens[i].x -=alienSpeed;
         aliens[i].update();
     }
     
-    if(gameArea.frameNo%500==0 & gameArea.frameNo!=0){
-        freq+=30;
-        pos+=1;
-        num+=1;
-    }
+    
     if(gameArea.frameNo%freq==0 ){
-        decision = Math.floor(Math.random()*pos)+1;
+        decision = Math.floor(Math.random()*alienPos)+1;
         
-        for(i=1;i<=num;i++){
-            aliens.push(new whiteSpike(800+200*(i-1),decision*100));
+        for(i=1;i<=1;i++){
+            aliens.push(new whiteSpike(800+100*(i-1),decision*100));
         }
         
     }
     gameArea.frameNo+=0.5;
    }
+   if(level==6){
+    gameArea.stop();
+    gameArea.clear();
+    
+    
+       var points = parseInt(document.querySelector('#points').textContent);
+        if(points>highScore){
+            localStorage.setItem('highScore',points);
+            document.querySelector('#pDetails').innerHTML = points;
+        }
+        gameArea.context.fillStyle = 'red';
+        gameArea.context.font = '40px Arial';
+        gameArea.context.fillText('Game Over',300,200);
+        setTimeout(()=>{
+            document.querySelector('.fa-redo-alt').style.display = 'block';
+        document.querySelector('#reset').style.display = 'block';
+        gameArea.canvas.style.opacity = 0.4;
+        },1000);
+       
+        
+    
+}
     
 }
 //play btn
