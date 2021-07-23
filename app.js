@@ -16,6 +16,8 @@ ctxSI = shipIcon.getContext('2d');
 ctxSI.translate(200,55);
     ctxSI.rotate(-Math.PI/2);
 ship(1,ctxSI);
+
+//spaceship
 function ship(x,ctxm){
     
     //body
@@ -70,6 +72,7 @@ alienIcon.height = 350;
 ctxA1 = alienIcon.getContext('2d');
 ctxA1.translate(150,120);
 
+//whiteSpikes basic
 function whiteSpikes(x,ctxm){
     var ang1 = 0;
 
@@ -246,7 +249,7 @@ var alienSpeed = 1;
 var killStreak = 0;
 var streak = 0;
 var streakPoint = 0;
-var remTime = 31;
+var remTime = 30;
     var interval = setInterval(()=>{
         
         remTime -=1;
@@ -254,7 +257,7 @@ var remTime = 31;
     },1000);
 function updateGame(){
     if(remTime==0){
-        remTime = 31;
+        remTime = 30;
     }
     kill = false;
     i = 0;
@@ -273,9 +276,6 @@ function updateGame(){
             killStreak +=1;
             aliens.splice(curDead,1);
             alienkill.start();
-            // Something is wrong with splice
-            //console.log(i);
-           // console.log(bullets[i]);
             bullets.splice(i,1);
             
             curDead = null;
@@ -309,7 +309,7 @@ function updateGame(){
        document.querySelector('.fa-redo-alt').style.display = 'block';
         document.querySelector('#reset').style.display = 'block';
         gameArea.canvas.style.opacity = 0.4;
-        clearInterval(interval);remTime = 31;
+        clearInterval(interval);remTime = 30;
         death.start();
    }
    else{
@@ -327,7 +327,7 @@ function updateGame(){
         
     }
     // killing streak bonus
-    if(killStreak==5 &&killStreak!=0){
+    if(killStreak==5){
         streakPoint = 1;
         streak = 1;
         killStreak=0;
@@ -386,7 +386,7 @@ function updateGame(){
         }
         
         if(level>=3){
-            console.log('s');
+            
             if(aliens[i].up ==true){
                 aliens[i].y-=alienSpeed;
             }else{
@@ -414,7 +414,7 @@ function updateGame(){
     gameArea.stop();
     gameArea.clear();
     clearInterval(interval);
-    remTime = 31;
+    remTime = 30;
     
        var points = parseInt(document.querySelector('#points').textContent);
         if(points>highScore){
@@ -452,6 +452,7 @@ play.addEventListener('click',()=>{
     complete.stop();
     death.stop();
     playgame.start();
+    remTime = 30;
     interval = setInterval(()=>{
         
         remTime -=1;
@@ -460,10 +461,12 @@ play.addEventListener('click',()=>{
     aliens = [];
     level = 1;
     
+    
  levelComp = 0;
  alienPos = 3;
  freq = 125;
  alienSpeed = 0.25;
+ num = 1;
  killStreak = 0;
  streak = 0;
  streakPoint = 0;
@@ -471,7 +474,7 @@ play.addEventListener('click',()=>{
 
 const resetBtn = document.querySelector('#reset');
 resetBtn.addEventListener('click',()=>{
-    
+    clearInterval(interval);
     document.querySelector('.fa-redo-alt').style.display = '';
     document.querySelector('#reset').style.display = '';
     
