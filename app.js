@@ -452,6 +452,7 @@ play.addEventListener('click',()=>{
     complete.stop();
     death.stop();
     playgame.start();
+    remTime = 30;
     interval = setInterval(()=>{
         
         remTime -=1;
