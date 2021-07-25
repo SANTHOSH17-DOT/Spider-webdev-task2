@@ -92,11 +92,11 @@ ctxm.fill();
 }
 
 whiteSpikes(1,ctxA1);
-//White spike boss 1
+//White spike boss 
 function bossD1(x,ctxm){
     ctxm.fillStyle = 'white';
     ctxm.beginPath();
-    ctxm.arc(0,0,25,0,2*Math.PI);
+    ctxm.arc(0,0,25/x,0,2*Math.PI);
     ctxm.fill();
     var ang = 0;
     while(ang<=360){
@@ -113,9 +113,87 @@ function bossD1(x,ctxm){
     }
 
 }
+function bossD2(x,ctxm){
+    var ang = 0;
+    ctxm.fillStyle = 'white';
+    ctxm.beginPath();
+    while(ang<=360){
+        ctxm.rotate(-ang*Math.PI/180);
+        ctxm.moveTo(0,0);
+        ctxm.lineTo(100/x*Math.cos(15*Math.PI/180),100/x*Math.sin(15*Math.PI/180));
+        ctxm.lineTo(50/x*Math.cos(30*Math.PI/180),50/x*Math.sin(30*Math.PI/180));
+        ctxm.rotate(ang*Math.PI/180);
+  
+        ang+=30;
+    }
+    ctxm.fill();
+}
 
-
-
+function bossD3(x,ctxm){
+    var ang = 0;
+    ctxm.fillStyle = 'white';
+    ctxm.beginPath();
+    ctxm.arc(0,0,25/x,0,2*Math.PI);
+    ctxm.fill();
+    ctxm.fillStyle = 'white';
+    ctxm.beginPath();
+    while(ang<=360){
+        ctxm.rotate(-ang*Math.PI/180);
+        ctxm.moveTo(40/x,0);
+         ctxm.lineTo(130/x*Math.cos(15*Math.PI/180),130/x*Math.sin(15*Math.PI/180)); 
+         ctxm.lineTo(70/x*Math.cos(30*Math.PI/180),70/x*Math.sin(30*Math.PI/180));
+        ctxm.rotate(ang*Math.PI/180);
+        
+        ang+=30;
+        
+      }
+      ctxm.fill();
+}
+function bossD4(x,ctxm){
+    ctxm.fillStyle = 'white';
+    ctxm.beginPath();
+    ctxm.arc(0,0,25/x,0,2*Math.PI);
+    ctxm.fill();
+    var ang = 0;
+    while(ang<=360){
+        ctxm.rotate(ang*Math.PI/180);
+        ctxm.beginPath();
+        ctxm.fillStyle = 'white';
+        ctxm.moveTo(50/x,0);
+        ctxm.lineTo(75/x*Math.cos(Math.PI/12),75/x*Math.sin(Math.PI/12));
+        ctxm.lineTo(50/x*Math.cos(Math.PI/6),50/x*Math.sin(Math.PI/6));
+        ctxm.fill();
+        ctxm.fillStyle= 'white';
+        ctxm.arc(90/x*Math.cos(Math.PI/12),90/x*Math.sin(Math.PI/12),10,0,2*Math.PI);
+        ctxm.fill();
+        ctxm.rotate(-ang*Math.PI/180);
+        
+        ang+=30;
+    }
+}
+function bossD5(x,ctxm){
+    var ang = 0;
+    ctxm.fillStyle = 'white';
+    ctxm.beginPath();
+    ctxm.arc(0,0,25/x,0,2*Math.PI);
+    ctxm.fill();
+    ctxm.fillStyle = 'white';
+    ctxm.beginPath();
+    while(ang<=360){
+        ctxm.rotate(-ang*Math.PI/180);
+        ctxm.moveTo(40/x,0);
+         ctxm.lineTo(130/x*Math.cos(15*Math.PI/180),130/x*Math.sin(15*Math.PI/180)); 
+         ctxm.lineTo(70/x*Math.cos(30*Math.PI/180),70/x*Math.sin(30*Math.PI/180));
+         ctxm.fillStyle= 'white';
+         ctxm.arc(145/x*Math.cos(Math.PI/12),145/x*Math.sin(Math.PI/12),10,0,2*Math.PI);
+         ctxm.fill();
+         ctxm.rotate(ang*Math.PI/180);
+        
+        ang+=30;
+        
+      }
+      ctxm.fill();
+}
 //game page
 document.querySelector('#pDetails').innerHTML = highScore;
 
@@ -132,6 +210,7 @@ var bullets = [];
 var spacer;
 var hit = false;
 var curDead;
+
 function startGame(){
     gameArea.start();
     spacer = new spaceship(100,200);
@@ -200,12 +279,75 @@ function spaceship(x,y){
             return crash;
         
     }
-    
+    this.shipW1 = (boss1)=>{
+        crash = true;
+        shipL = this.x-65;
+        shipR = this.x-5;
+        shipT = this.y-70/2;
+        shipB = this.y+70/2;      
+        boss1T = boss1.y-75/boss1.scale;
+        boss1B = boss1.y +75/boss1.scale;
+        boss1R = boss1.x + 75/boss1.scale;
+        boss1L = boss1.x-75/boss1.scale;  
+        if(boss1L>shipR||boss1R<shipL||boss1T>shipB||boss1B<shipT){
+                
+            crash = false;
+        }
+        return crash;
+    }
+    this.shipW2 = (boss2)=>{
+        crash = true;
+        shipL = this.x-65;
+        shipR = this.x-5;
+        shipT = this.y-70/2;
+        shipB = this.y+70/2;   
+        boss2T = boss2.y-100/boss2.scale;
+        boss2B = boss2.y +100/boss2.scale;
+        boss2R = boss2.x + 100/boss2.scale;
+        boss2L = boss2.x-100/boss2.scale;   
+        if(boss2L>shipR||boss2R<shipL||boss2T>shipB||boss2B<shipT){
+                
+            crash = false;
+        }
+        return crash;  
+    }
+    this.shipW3 = (boss3)=>{
+        crash = true;
+        shipL = this.x-65;
+        shipR = this.x-5;
+        shipT = this.y-70/2;
+        shipB = this.y+70/2;       
+        boss3T = boss3.y-100/boss3.scale;
+        boss3B = boss3.y +100/boss3.scale;
+        boss3R = boss3.x + 100/boss3.scale;
+        boss3L = boss3.x-100/boss3.scale;  
+        if(boss3L>shipR||boss3R<shipL||boss3T>shipB||boss3B<shipT){
+                
+            crash = false;
+        }
+        return crash;       
+    }
+    this.shipW4 = (boss4)=>{
+        crash = true;
+        shipL = this.x-65;
+        shipR = this.x-5;
+        shipT = this.y-70/2;
+        shipB = this.y+70/2;       
+        boss4T = boss4.y-150/boss4.scale;
+        boss4B = boss4.y +150/boss4.scale;
+        boss4R = boss4.x + 150/boss4.scale;
+        boss4L = boss4.x-150/boss4.scale;   
+        if(boss4L>shipR||boss4R<shipL||boss4T>shipB||boss4B<shipT){
+                
+            crash = false;
+        }
+        return crash;           
+    }
 }
 function whiteSpike(x,y,dec){
     this.x = x;
     this.y = y;
-    
+    this.type = 1;
     if(dec==1){
         this.up = false;
     }else{
@@ -222,6 +364,7 @@ function whiteSpike(x,y,dec){
 function boss1(x,y,dec,scale){
     this.x = x;
     this.y = y;
+    this.type == 2;
     this.scale = scale;
     if(dec==1){
         this.up = false;
@@ -232,6 +375,74 @@ function boss1(x,y,dec,scale){
         ctx = gameArea.context;
         ctx.translate(this.x,this.y);
         bossD1(this.scale,ctx);
+        ctx.translate(-this.x,-this.y);
+    }
+}
+function boss2(x,y,dec,scale){
+    this.x = x;
+    this.y =y ;
+    this.type = 3;
+    this.scale = scale;
+    if(dec==1){
+        this.up = false;
+    }else{
+        this.up = true;
+    }
+    this.update = function(){
+        ctx = gameArea.context;
+        ctx.translate(this.x,this.y);
+        bossD2(this.scale,ctx);
+        ctx.translate(-this.x,-this.y);
+    }
+}
+function boss3(x,y,dec,scale){
+    this.x = x;
+    this.y = y;
+    this.type = 4;
+    this.scale = scale;
+    if(dec==1){
+        this.up = false;
+    }else{
+        this.up = true;
+    }
+    this.update = function(){
+        ctx = gameArea.context;
+        ctx.translate(this.x,this.y);
+        bossD3(this.scale,ctx);
+        ctx.translate(-this.x,-this.y);
+    }
+}
+function boss4(x,y,dec,scale){
+    this.x = x;
+    this.y = y;
+    this.type = 5;
+    this.scale = scale;
+    if(dec==1){
+        this.up = false;
+    }else{
+        this.up = true;
+    }
+    this.update = function(){
+        ctx = gameArea.context;
+        ctx.translate(this.x,this.y);
+        bossD4(this.scale,ctx);
+        ctx.translate(-this.x,-this.y);
+    }
+}
+function boss5(x,y,dec,scale){
+    this.x = x;
+    this.y = y;
+    this.type = 6;
+    this.scale = scale;
+    if(dec==1){
+        this.up = false;
+    }else{
+        this.up = true;
+    }
+    this.update = function(){
+        ctx = gameArea.context;
+        ctx.translate(this.x,this.y);
+        bossD5(this.scale,ctx);
         ctx.translate(-this.x,-this.y);
     }
 }
@@ -265,7 +476,7 @@ function bullet(x,y,radius,color){
     this.boss1Kill = ()=>{
         kill = false;
         for(i =0;boss.length;i++){
-            if(this.radius+75/boss[i].scale>=Math.sqrt((this.x-boss[i].x)**2+(this.y-aliens[i].y)**2)){
+            if(this.radius+75/boss[i].scale>=Math.sqrt((this.x-boss[i].x)**2+(this.y-boss[i].y)**2)){
                 boss1Kill+=1;
                 shot = 1;
                 if(boss1Kill==5){
@@ -276,6 +487,55 @@ function bullet(x,y,radius,color){
         }
         return kill;
     }
+    this.boss2Kill = ()=>{
+        kill = false;
+        if(this.radius+100/boss[0].scale>=Math.sqrt((this.x-boss[0].x)**2+(this.y-boss[0].y)**2)){
+            boss2Kill+=1;
+                shot = 1;
+                if(boss2Kill==10){
+                    kill = true;
+                    
+                }
+        }
+        return kill;
+    }
+    this.boss3Kill = ()=>{
+        kill = false;
+        if(this.radius+130/boss[0].scale>=Math.sqrt((this.x-boss[0].x)**2+(this.y-boss[0].y)**2)){
+            boss3Kill+=1;
+                shot = 1;
+                if(boss3Kill==10){
+                    kill = true;
+                    
+                }
+        }
+        return kill;
+    }
+    this.boss4Kill = ()=>{
+        kill = false;
+        if(this.radius+130/boss[0].scale>=Math.sqrt((this.x-boss[0].x)**2+(this.y-boss[0].y)**2)){
+            boss4Kill+=1;
+                shot = 1;
+                if(boss4Kill==10){
+                    kill = true;
+                    
+                }
+        }
+        return kill;
+    }
+    this.boss5Kill = ()=>{
+        kill = false;
+        if(this.radius+130/boss[0].scale>=Math.sqrt((this.x-boss[0].x)**2+(this.y-boss[0].y)**2)){
+            boss5Kill+=1;
+                shot = 1;
+                if(boss5Kill==10){
+                    kill = true;
+                    
+                }
+        }
+        return kill;
+    }
+
 
 }
 window.addEventListener('keydown',()=>{
@@ -313,7 +573,7 @@ document.querySelector('#game').addEventListener('click',()=>{
             bullets.push(new bullet(spacer.x,spacer.y,10,'gold'));
         }
         else if(600>specPow%1000&&specPow%1000>=300){
-            console.log('s');
+            
             bullets.push(new bullet(spacer.x-25,spacer.y-35,10,'gold'));
             bullets.push(new bullet(spacer.x-25,spacer.y+35,10,'gold'));
         }
@@ -340,6 +600,10 @@ var streakPoint = 0;
 var remTime = 40;
 var bossEntry = 0;
 var boss1Kill = 0;
+var boss2Kill = 0;
+var boss3Kill = 0;
+var boss4Kill = 0;
+var boss5Kill = 0;
 var shot = 0;
     var interval = setInterval(()=>{
         
@@ -348,7 +612,7 @@ var shot = 0;
     },1000);
     var specPow =0; 
 function updateGame(){
-    console.log(boss);
+    
     if(remTime==0){
         remTime = 40;
     }
@@ -361,12 +625,26 @@ function updateGame(){
         
         try{
             kill = bullets[i].kill();
-            bossKill = bullets[i].boss1Kill();
+            if(level==1){
+                bossKill = bullets[i].boss1Kill();
+            }
+            else if(level==2){
+                bossKill = bullets[i].boss2Kill();
+            }
+            else if(level==3){
+                bossKill = bullets[i].boss3Kill();
+            }
+            else if(level==4){
+                bossKill = bullets[i].boss4Kill();
+            }
+            else if(level==5){
+                bossKill = bullets[i].boss5Kill();
+            }
         }
         catch{
 
         }
-        // Not completed yet
+        
         if(shot==1){
             bullets.splice(i,1);
             shot = 0;
@@ -374,6 +652,8 @@ function updateGame(){
         if(bossKill==true){
             boss.splice(0,1);
             bullets.splice(i,1);
+            points = document.querySelector('#points').textContent;
+            document.querySelector('#points').textContent=parseInt(points)+50;
         }
         if(kill==true){
             killStreak +=1;
@@ -394,13 +674,73 @@ function updateGame(){
     
         
     
-   gameover = false;
-   for(i=0;i<aliens.length;i++){
-       if(spacer.shipW(aliens[i]) == true){
-           gameover = true;
-           break;
+   var gameover = false;
+   try{
+       if(level==1){
+        if(spacer.shipW(boss[0]) == true){
+            gameover=true;
+           
+        }
+       }else if(level==2){
+        if(spacer.shipW1(boss[0]) == true){
+            gameover=true;
+        }
+       }
+       else if(level==3){
+        if(spacer.shipW2(boss[0]) == true){
+            gameover=true;
+        }
+       }
+       else if(level==4){
+        if(spacer.shipW3(boss[0]) == true){
+            gameover=true;
+        }
+       }
+       else if(level==5){
+        if(spacer.shipW4(boss[0]) == true){
+            gameover=true;
+        }
        }
    }
+  catch{
+
+  }
+if(gameover==false){
+    for(i=0;i<aliens.length;i++){
+        if(level==1){
+         if(spacer.shipW(aliens[i]) == true&& aliens[i].type ==1){
+             gameover = true;
+             break;
+         }
+         
+        }
+        else if(level==2){
+         if(spacer.shipW1(aliens[i]) == true && aliens[i].type ==2){
+             gameover = true;
+             break;
+         }
+        }
+        else if(level==3){
+            if(spacer.shipW2(aliens[i]) == true && aliens[i].type ==3){
+                gameover = true;
+                break;
+            }
+           }
+           else if(level==4){
+            if(spacer.shipW3(aliens[i]) == true && aliens[i].type ==4){
+                gameover = true;
+                break;
+            }
+           }
+           else if(level==5){
+            if(spacer.shipW4(aliens[i]) == true && aliens[i].type ==5){
+                gameover = true;
+                break;
+            }
+           }
+    }
+}
+   
    if(gameover){
        gameArea.stop();
        var points = parseInt(document.querySelector('#points').textContent);
@@ -508,16 +848,35 @@ function updateGame(){
     
     if(gameArea.frameNo%freq==0 ){
         decision = Math.floor(Math.random()*alienPos)+1;
-        
-        for(i=1;i<=num;i++){
-            aliens.push(new whiteSpike(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2)));
+        if(level==1){
+            for(i=1;i<=num;i++){
+                aliens.push(new whiteSpike(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2)));
+            }
+        }else if(level==2){
+            for(i=1;i<=num;i++){
+                aliens.push(new boss1(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2),2.2));
+            }
+        }else if(level==3){
+            for(i=1;i<=num;i++){
+                aliens.push(new boss2(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2),2.2));
+            }
+        }else if(level==4){
+            for(i=1;i<=num;i++){
+                aliens.push(new boss3(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2),2.2));
+            }
         }
+        else if(level==5){
+            for(i=1;i<=num;i++){
+                aliens.push(new boss4(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2),2.2));
+            }
+        }
+        
         
     }
     for(i=0;i<boss.length;i++){
         
         if(remTime<3){
-            boss[i].x -= 6;
+            boss[i].x -= 7;
         }else{
             boss[i].x -= 0.25;
         }
@@ -528,12 +887,33 @@ function updateGame(){
         }
     }
     if(remTime==15 && level==1 && bossEntry == 1){
-        boss.push(new boss1(800,200,1,1.2));
+        boss.push(new boss1(875,200,1,1.2));
         bossEntry = 0;
     } else if(remTime !=15){
         bossEntry = 1;
     }
-    
+    if(remTime==15 && level==2 && bossEntry == 1){
+        boss.push(new boss2(875,200,1,1.3));
+        bossEntry = 0;
+    } else if(remTime !=15){
+        bossEntry = 1;
+    }
+    if(remTime==15 && level==3 && bossEntry == 1){
+        boss.push(new boss3(875,200,1,1.3));
+        bossEntry = 0;
+    } else if(remTime !=15){
+        bossEntry = 1;
+    }if(remTime==15 && level==4 && bossEntry == 1){
+        boss.push(new boss4(875,200,1,1.3));
+        bossEntry = 0;
+    } else if(remTime !=15){
+        bossEntry = 1;
+    }if(remTime==15 && level==5 && bossEntry == 1){
+        boss.push(new boss4(875,200,1,1.3));
+        bossEntry = 0;
+    } else if(remTime !=15){
+        bossEntry = 1;
+    }
     gameArea.frameNo+=0.5;
    }
    if(level==6){
@@ -594,6 +974,7 @@ play.addEventListener('click',()=>{
         
     },1000);
     aliens = [];
+    boss = [];
     level = 1;
     
  levelComp = 0;
@@ -604,6 +985,9 @@ play.addEventListener('click',()=>{
  killStreak = 0;
  streak = 0;
  streakPoint = 0;
+  bossEntry = 0;
+ boss1Kill = 0;
+ shot = 0;
 });
 
 const resetBtn = document.querySelector('#reset');
