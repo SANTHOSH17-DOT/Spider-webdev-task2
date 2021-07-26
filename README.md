@@ -22,5 +22,5 @@ Space War
 7. Level completion bonus
 8. Boss alien in each level
 9. Increase the points for boss aliens
-10. Special power bar
-11. Bonus level ???
+10. Special power bar(Missile)
+11. Bonus level- after 3rd level(mystery powers)

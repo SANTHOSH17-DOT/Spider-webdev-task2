@@ -348,6 +348,7 @@ function whiteSpike(x,y,dec){
     this.x = x;
     this.y = y;
     this.type = 1;
+    this.life = 1;
     if(dec==1){
         this.up = false;
     }else{
@@ -365,6 +366,7 @@ function boss1(x,y,dec,scale){
     this.x = x;
     this.y = y;
     this.type == 2;
+    this.life = 2;
     this.scale = scale;
     if(dec==1){
         this.up = false;
@@ -382,6 +384,7 @@ function boss2(x,y,dec,scale){
     this.x = x;
     this.y =y ;
     this.type = 3;
+    this.life = 3;
     this.scale = scale;
     if(dec==1){
         this.up = false;
@@ -399,6 +402,7 @@ function boss3(x,y,dec,scale){
     this.x = x;
     this.y = y;
     this.type = 4;
+    this.life = 4;
     this.scale = scale;
     if(dec==1){
         this.up = false;
@@ -416,6 +420,7 @@ function boss4(x,y,dec,scale){
     this.x = x;
     this.y = y;
     this.type = 5;
+    this.life = 5;
     this.scale = scale;
     if(dec==1){
         this.up = false;
@@ -433,6 +438,7 @@ function boss5(x,y,dec,scale){
     this.x = x;
     this.y = y;
     this.type = 6;
+    this.life = 6;
     this.scale = scale;
     if(dec==1){
         this.up = false;
@@ -465,7 +471,9 @@ function bullet(x,y,radius,color){
         for(i=0;i<aliens.length;i++){
             
             if(this.radius+80/3>=Math.sqrt((this.x-aliens[i].x)**2+(this.y-aliens[i].y)**2)){
-                
+                if(aliens[i].life!=0){
+                    aliens[i].life-=1;
+                }
                 kill = true;
                 curDead = i;
                 break;
@@ -489,51 +497,63 @@ function bullet(x,y,radius,color){
     }
     this.boss2Kill = ()=>{
         kill = false;
-        if(this.radius+100/boss[0].scale>=Math.sqrt((this.x-boss[0].x)**2+(this.y-boss[0].y)**2)){
-            boss2Kill+=1;
-                shot = 1;
-                if(boss2Kill==10){
-                    kill = true;
-                    
-                }
+        for(i=0;boss.length;i++){
+            if(this.radius+100/boss[i].scale>=Math.sqrt((this.x-boss[i].x)**2+(this.y-boss[i].y)**2)){
+                boss2Kill+=1;
+                    shot = 1;
+                    if(boss2Kill==10){
+                        kill = true;
+                        
+                    }
+            }
+            return kill;
         }
-        return kill;
+        
     }
     this.boss3Kill = ()=>{
         kill = false;
-        if(this.radius+130/boss[0].scale>=Math.sqrt((this.x-boss[0].x)**2+(this.y-boss[0].y)**2)){
-            boss3Kill+=1;
-                shot = 1;
-                if(boss3Kill==10){
-                    kill = true;
-                    
-                }
+        for(i=0;boss.length;i++){
+            if(this.radius+130/boss[i].scale>=Math.sqrt((this.x-boss[i].x)**2+(this.y-boss[i].y)**2)){
+                boss3Kill+=1;
+                    shot = 1;
+                    if(boss3Kill==10){
+                        kill = true;
+                        
+                    }
+            }
+            return kill;
         }
-        return kill;
+        
     }
     this.boss4Kill = ()=>{
         kill = false;
-        if(this.radius+130/boss[0].scale>=Math.sqrt((this.x-boss[0].x)**2+(this.y-boss[0].y)**2)){
-            boss4Kill+=1;
-                shot = 1;
-                if(boss4Kill==10){
-                    kill = true;
-                    
-                }
+        for(i=0;boss.length;i++){
+            if(this.radius+130/boss[i].scale>=Math.sqrt((this.x-boss[i].x)**2+(this.y-boss[i].y)**2)){
+                boss4Kill+=1;
+                    shot = 1;
+                    if(boss4Kill==10){
+                        kill = true;
+                        
+                    }
+            }
+            return kill;
         }
-        return kill;
+        
     }
     this.boss5Kill = ()=>{
         kill = false;
-        if(this.radius+130/boss[0].scale>=Math.sqrt((this.x-boss[0].x)**2+(this.y-boss[0].y)**2)){
-            boss5Kill+=1;
-                shot = 1;
-                if(boss5Kill==10){
-                    kill = true;
-                    
-                }
+        for(i=0;boss.length;i++){
+            if(this.radius+130/boss[i].scale>=Math.sqrt((this.x-boss[i].x)**2+(this.y-boss[i].y)**2)){
+                boss5Kill+=1;
+                    shot = 1;
+                    if(boss5Kill==10){
+                        kill = true;
+                        
+                    }
+            }
+            return kill;
         }
-        return kill;
+        
     }
 
 
@@ -591,7 +611,6 @@ document.querySelector('#game').addEventListener('click',()=>{
 var level = 1;
 var levelComp = 0;
 var alienPos = 3;
-var freq = 125;
 var num = 1;
 var alienSpeed = 1;
 var killStreak = 0;
@@ -655,7 +674,13 @@ function updateGame(){
             points = document.querySelector('#points').textContent;
             document.querySelector('#points').textContent=parseInt(points)+50;
         }
-        if(kill==true){
+        try{
+            console.log(aliens[curDead].life);
+        }catch{
+
+        }
+        
+        if(kill==true && aliens[curDead].life==0){
             killStreak +=1;
             aliens.splice(curDead,1);
             alienkill.start();
@@ -665,6 +690,10 @@ function updateGame(){
             curDead = null;
             points = document.querySelector('#points').textContent;
             document.querySelector('#points').textContent=parseInt(points)+10;
+            kill = false;
+            i-=1;
+        }else if(kill==true){
+            bullets.splice(i,1);
             kill = false;
             i-=1;
         }
@@ -846,7 +875,7 @@ if(gameover==false){
     }
     
     
-    if(gameArea.frameNo%freq==0 ){
+    if(gameArea.frameNo%125==0 ){
         decision = Math.floor(Math.random()*alienPos)+1;
         if(level==1){
             for(i=1;i<=num;i++){
@@ -858,16 +887,16 @@ if(gameover==false){
             }
         }else if(level==3){
             for(i=1;i<=num;i++){
-                aliens.push(new boss2(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2),2.2));
+                aliens.push(new boss2(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2),2.5));
             }
         }else if(level==4){
             for(i=1;i<=num;i++){
-                aliens.push(new boss3(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2),2.2));
+                aliens.push(new boss3(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2),3.1));
             }
         }
         else if(level==5){
             for(i=1;i<=num;i++){
-                aliens.push(new boss4(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2),2.2));
+                aliens.push(new boss4(800+100*(i-1),decision*400/(alienPos+1),Math.floor(Math.random()*2),3));
             }
         }
         
@@ -987,6 +1016,10 @@ play.addEventListener('click',()=>{
  streakPoint = 0;
   bossEntry = 0;
  boss1Kill = 0;
+  boss2Kill = 0;
+ boss3Kill = 0;
+ boss4Kill = 0;
+ boss5Kill = 0;
  shot = 0;
 });
 
