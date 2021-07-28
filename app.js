@@ -1130,7 +1130,7 @@ if(missileCount!=Math.floor(specPow/1000)){
     
 }
 missileIcon.update();
-missileCount = Math.floor(specPow/100);
+missileCount = Math.floor(specPow/1000);
 }
 document.querySelector('#specialLevel').addEventListener('click',()=>{
     document.querySelector('#speclvl').style.display = 'block';
