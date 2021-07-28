@@ -234,7 +234,7 @@ var curDead;
 function startGame(){
     gameArea.start();
     spacer = new spaceship(100,200);
-    missileIcon = new missile(75,350,3.5,1,1);
+    missileIcon = new missile(75,350,3.5,1,0);
 }
 var gameArea={
     canvas: document.querySelector('#gameArea'),
@@ -749,7 +749,7 @@ var boss3Kill = 0;
 var boss4Kill = 0;
 var boss5Kill = 0;
 var shot = 0;
-var missileCount;
+var missileCount=0;
 var missileIcon;
     var interval = setInterval(()=>{
         
@@ -896,14 +896,11 @@ if(gameover==false){
    
    if(gameover){
        gameArea.stop();
-       var points = parseInt(document.querySelector('#points').textContent);
-        if(points>highScore){
-            localStorage.setItem('highScore',points);
-            document.querySelector('#pDetails').innerHTML = points;
-        }
+       
         document.querySelector('#game').style.pointerEvents = 'none';
         document.querySelector('#game').style.cursor = 'pointer';
        document.querySelector('.fa-redo-alt').style.display = 'block';
+       document.querySelector('#specialLevel').style.display = 'block';
         document.querySelector('#reset').style.display = 'block';
         gameArea.canvas.style.opacity = 0.4;
         clearInterval(interval);remTime = 31;
@@ -1126,7 +1123,8 @@ specPow = parseInt(document.querySelector('#points').textContent);
     
     powerBar.update();
 
-if(missileCount!=Math.floor(specPow/100)&&specPow!=0){
+   
+if(missileCount!=Math.floor(specPow/1000)){
     console.log(missileIcon.count);
     missileIcon.count +=1;
     
@@ -1134,10 +1132,115 @@ if(missileCount!=Math.floor(specPow/100)&&specPow!=0){
 missileIcon.update();
 missileCount = Math.floor(specPow/100);
 }
+document.querySelector('#specialLevel').addEventListener('click',()=>{
+    document.querySelector('#speclvl').style.display = 'block';
+    document.querySelector('.fa-redo-alt').style.display = '';
+    document.querySelector('#reset').style.display = '';
+    document.querySelector('#gameArea').style.display = 'none';
+    document.querySelector('#specialLevel').style.display = 'none';
+    
+});
+//special level
+var nums = [1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8];
+var puzz = [];
+var puzzI = [];
+var click = 0;
+var val1;
+var val2;
+for(i=0;i<4;i++){
+  arr = [];
+  for(j=0;j<4;j++){
+    dec =Math.floor(Math.random()*nums.length);
+    arr.push(nums[dec]);
+    nums.splice(dec,1);
+  }
+  puzz.push(arr);
+}
+var canvasSpeclvl = document.querySelector('#speclvl');
+canvasSpeclvl.width = 400;
+canvasSpeclvl.height = 400;
+ctxSL = canvasSpeclvl.getContext('2d');
+function card(i,j){
+    ctxSL.translate(i*50,j*50);
+    ctxSL.fillStyle = 'black';
+  ctxSL.strokeStyle = 'white';
+  ctxSL.rect(0,0,50,50);
+  ctxSL.fill();
+  ctxSL.stroke();
+  ctxSL.translate(-i*50,-j*50);
+}
+function emptyCard(i,j){
+    ctxSL.translate(i*50,j*50);
+    ctxSL.fillStyle = 'white';
+    ctxSL.fillRect(0,0,50,50);
+  
+    ctxSL.translate(-i*50,-j*50);
+}
+for(i=1;i<5;i++){
+  for(j=1;j<5;j++){
+  card(i,j);
+  }
+  
+}
+canvasSpeclvl.addEventListener('click',(event)=>{
+    
+    click+=1;
+    if(click==2){
+    for(i=1;i<5;i++){
+  for(j=1;j<5;j++){
+        card(i,j);
+  }
+  
+}
+    click = 0;
+      val1 = 0;
+    val2 = 0;
+  }
+  for(k = 0 ;k<puzzI.length;k++){
+    emptyCard(puzzI[k][1],puzzI[k][0]);
+}  
+    x = event.clientX;
+    y = event.clientY;
+  console.log(x,y);
+  for(i=1;i<5;i++){
+    for(j=1;j<5;j++){ 
+    if(x<50*(j-1)+670&&y<50*(i-1)+325&&x>50*(j-1)+620&&y>50*(i-1)+275){
+      
+      if(val1!=0){
+        val2= [i-1,j-1];
+      }else{
+        val1 = [i-1,j-1];
+        
+      }
+      
+      try{
+        if(puzz[val1[0]][val1[1]]==puzz[val2[0]][val2[1]]){ 
+             val1[0]+=1;
+             val1[1] +=1;
+             val2[0]+=1;
+             val2[1]+=1;
+          puzzI.push(val1);
+          puzzI.push(val2);
+        }
+      }
+       catch{}
+     ctx.translate(50*j,50*i);
+      ctx.strokeStyle = 'white';
+      ctx.font= '20px Arial';
+      
+      ctx.strokeText(puzz[i-1][j-1],25,25);
+      ctx.translate(-50*j,-50*i);
+    }
+    }
+  }
+   
+});
+
 //play btn
 play = document.querySelector('#playBtn');
 play.addEventListener('click',()=>{
     document.querySelector('#game').style.display = 'flex';
+    document.querySelector('#speclvl').style.display = 'none';
     document.querySelector('#intro').style.display = 'none';
     document.querySelector('#points').innerHTML = 0;
     document.querySelector('#game').style.pointerEvents = 'all';
@@ -1175,7 +1278,12 @@ play.addEventListener('click',()=>{
 
 const resetBtn = document.querySelector('#reset');
 resetBtn.addEventListener('click',()=>{
-    
+    document.querySelector('#specialLevel').style.display = 'none';
+    var points = parseInt(document.querySelector('#points').textContent);
+        if(points>highScore){
+            localStorage.setItem('highScore',points);
+            document.querySelector('#pDetails').innerHTML = points;
+        }
     document.querySelector('.fa-redo-alt').style.display = '';
     document.querySelector('#reset').style.display = '';
     

@@ -64,6 +64,23 @@
 #reset {
   display: none;
 }
+#specialLevel {
+  display: none;
+  position: absolute;
+  top: 60%;
+  left: 47%;
+  padding: 10px 20px;
+  font-weight: 600;
+  background: rgb(192, 13, 138);
+  color: white;
+}
+#speclvl {
+  display: none;
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  pointer-events: all;
+}
 .fa-redo-alt {
   display: none;
   font-size: 100px;
