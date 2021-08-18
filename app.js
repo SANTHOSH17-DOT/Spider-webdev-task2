@@ -314,8 +314,8 @@ function missile(x, y, scale, type, count) {
     this.boss1Kill = () => {
         kill = false;
         for (i = 0; i < boss.length; i++) {
-            console.log(boss);
-            console.log(boss[i].scale);
+            //console.log(boss);
+            //console.log(boss[i].scale);
             if (75 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
 
                 kill = true;
@@ -328,8 +328,8 @@ function missile(x, y, scale, type, count) {
     this.boss2Kill = () => {
         kill = false;
         for (i = 0; i < boss.length; i++) {
-            console.log(boss);
-            console.log(boss[i].scale);
+            //console.log(boss);
+            //console.log(boss[i].scale);
             if (75 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
 
                 kill = true;
@@ -342,8 +342,8 @@ function missile(x, y, scale, type, count) {
     this.boss3Kill = () => {
         kill = false;
         for (i = 0; i < boss.length; i++) {
-            console.log(boss);
-            console.log(boss[i].scale);
+            //console.log(boss);
+            //console.log(boss[i].scale);
             if (75 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
 
                 kill = true;
@@ -356,8 +356,8 @@ function missile(x, y, scale, type, count) {
     this.boss4Kill = () => {
         kill = false;
         for (i = 0; i < boss.length; i++) {
-            console.log(boss);
-            console.log(boss[i].scale);
+            //console.log(boss);
+            //console.log(boss[i].scale);
             if (75 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
 
                 kill = true;
@@ -369,9 +369,10 @@ function missile(x, y, scale, type, count) {
     }
     this.boss5Kill = () => {
         kill = false;
+        //console.log(boss);
         for (i = 0; i < boss.length; i++) {
-            console.log(boss);
-            console.log(boss[i].scale);
+
+            //console.log(boss[i].scale);
             if (75 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
 
                 kill = true;
@@ -480,10 +481,10 @@ function spaceship(x, y) {
         shipR = this.x - 5;
         shipT = this.y - 70 / 2;
         shipB = this.y + 70 / 2;
-        boss5T = boss5.y - 150 / boss5.scale;
-        boss5B = boss5.y + 150 / boss5.scale;
-        boss5R = boss5.x + 150 / boss5.scale;
-        boss5L = boss5.x - 150 / boss5.scale;
+        boss5T = boss5.y - 130 / boss5.scale;
+        boss5B = boss5.y + 130 / boss5.scale;
+        boss5R = boss5.x + 130 / boss5.scale;
+        boss5L = boss5.x - 130 / boss5.scale;
         if (boss5L > shipR || boss5R < shipL || boss5T > shipB || boss5B < shipT) {
 
             crash = false;
@@ -637,7 +638,7 @@ function bullet(x, y, radius, color) {
     }
     this.boss1Kill = () => {
         kill = false;
-        for (i = 0; boss.length; i++) {
+        for (i = 0; i < boss.length; i++) {
             if (this.radius + 75 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
                 boss1Kill += 1;
                 shot = 1;
@@ -651,11 +652,11 @@ function bullet(x, y, radius, color) {
     }
     this.boss2Kill = () => {
         kill = false;
-        for (i = 0; boss.length; i++) {
+        for (i = 0; i < boss.length; i++) {
             if (this.radius + 100 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
                 boss2Kill += 1;
                 shot = 1;
-                if (boss2Kill == 10) {
+                if (boss2Kill == 8) {
                     kill = true;
 
                 }
@@ -666,11 +667,11 @@ function bullet(x, y, radius, color) {
     }
     this.boss3Kill = () => {
         kill = false;
-        for (i = 0; boss.length; i++) {
+        for (i = 0; i < boss.length; i++) {
             if (this.radius + 130 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
                 boss3Kill += 1;
                 shot = 1;
-                if (boss3Kill == 10) {
+                if (boss3Kill == 11) {
                     kill = true;
 
                 }
@@ -681,11 +682,11 @@ function bullet(x, y, radius, color) {
     }
     this.boss4Kill = () => {
         kill = false;
-        for (i = 0; boss.length; i++) {
+        for (i = 0; i < boss.length; i++) {
             if (this.radius + 130 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
                 boss4Kill += 1;
                 shot = 1;
-                if (boss4Kill == 10) {
+                if (boss4Kill == 14) {
                     kill = true;
 
                 }
@@ -696,11 +697,11 @@ function bullet(x, y, radius, color) {
     }
     this.boss5Kill = () => {
         kill = false;
-        for (i = 0; boss.length; i++) {
+        for (i = 0; i < boss.length; i++) {
             if (this.radius + 130 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
                 boss5Kill += 1;
                 shot = 1;
-                if (boss5Kill == 10) {
+                if (boss5Kill == 17) {
                     kill = true;
 
                 }
@@ -817,7 +818,8 @@ var specPow = 0;
 var upPow = -1;
 
 function updateGame() {
-
+    //console.log(aliens);
+    //console.log(boss);
     if (remTime == 0) {
 
         remTime = 40;
@@ -1054,13 +1056,14 @@ function updateGame() {
         }
         // Missiles
         for (i = 0; i < missiles.length; i++) {
+            //console.log(missiles);
             missiles[i].x += 5;
             missiles[i].update();
 
 
             try {
                 if (missiles[i].kill() || missiles[i].boss1Kill() || missiles[i].boss2Kill() || missiles[i].boss3Kill() || missiles[i].boss4Kill() || missiles[i].boss5Kill()) {
-                    console.log('yes');
+                    //console.log('yes');
                     points = document.querySelector('#points').textContent;
                     document.querySelector('#points').textContent = parseInt(points) + 10 * aliens.length + 50;
                     aliens = [];
@@ -1091,7 +1094,7 @@ function updateGame() {
                 }
             } else if (level == 5) {
                 for (i = 1; i <= num; i++) {
-                    aliens.push(new boss4(800 + 100 * (i - 1), decision * 400 / (alienPos + 1), Math.floor(Math.random() * 2), 3.5));
+                    aliens.push(new boss4(800 + 100 * (i - 1), decision * 400 / (alienPos + 1), Math.floor(Math.random() * 2), 4));
                 }
             } else if (level == 6) {
                 let bossSelect = Math.floor(Math.random() * 5)
@@ -1202,7 +1205,7 @@ function updateGame() {
 
 
     if (missileCount != Math.floor(specPow / 1000)) {
-        console.log(missileIcon.count);
+        //console.log(missileIcon.count);
 
         missileIcon.count += 1;
         upPow += 1;
@@ -1237,7 +1240,7 @@ play.addEventListener('click', () => {
     }, 1000);
     aliens = [];
     boss = [];
-    level = 5;
+    level = 1;
 
     levelComp = 0;
     alienPos = 3;
