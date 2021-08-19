@@ -225,6 +225,8 @@ var playgame = new sound('play.wav');
 var death = new sound('Death.wav');
 var complete = new sound('Complete.wav');
 var missileSound = new sound('missile.wav')
+var bossEntrySound = new sound('siren.mp3')
+var bombBlast = new sound('missile_blast.wav')
     //game area
 var aliens = [];
 var boss = [];
@@ -309,79 +311,18 @@ function missile(x, y, scale, type, count) {
                 break;
             }
         }
-        return kill;
-    }
-    this.boss1Kill = () => {
-        kill = false;
         for (i = 0; i < boss.length; i++) {
-            //console.log(boss);
-            //console.log(boss[i].scale);
-            if (75 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
+
+            if (80 / 3 >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
 
                 kill = true;
-                break;
 
+                break;
             }
         }
         return kill;
     }
-    this.boss2Kill = () => {
-        kill = false;
-        for (i = 0; i < boss.length; i++) {
-            //console.log(boss);
-            //console.log(boss[i].scale);
-            if (75 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
 
-                kill = true;
-                break;
-
-            }
-        }
-        return kill;
-    }
-    this.boss3Kill = () => {
-        kill = false;
-        for (i = 0; i < boss.length; i++) {
-            //console.log(boss);
-            //console.log(boss[i].scale);
-            if (75 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
-
-                kill = true;
-                break;
-
-            }
-        }
-        return kill;
-    }
-    this.boss4Kill = () => {
-        kill = false;
-        for (i = 0; i < boss.length; i++) {
-            //console.log(boss);
-            //console.log(boss[i].scale);
-            if (75 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
-
-                kill = true;
-                break;
-
-            }
-        }
-        return kill;
-    }
-    this.boss5Kill = () => {
-        kill = false;
-        //console.log(boss);
-        for (i = 0; i < boss.length; i++) {
-
-            //console.log(boss[i].scale);
-            if (75 / boss[i].scale >= Math.sqrt((this.x - boss[i].x) ** 2 + (this.y - boss[i].y) ** 2)) {
-
-                kill = true;
-                break;
-
-            }
-        }
-        return kill;
-    }
 }
 
 function spaceship(x, y) {
@@ -1062,8 +1003,9 @@ function updateGame() {
 
 
             try {
-                if (missiles[i].kill() || missiles[i].boss1Kill() || missiles[i].boss2Kill() || missiles[i].boss3Kill() || missiles[i].boss4Kill() || missiles[i].boss5Kill()) {
+                if (missiles[i].kill()) {
                     //console.log('yes');
+                    bombBlast.start();
                     points = document.querySelector('#points').textContent;
                     document.querySelector('#points').textContent = parseInt(points) + 10 * aliens.length + 50;
                     aliens = [];
@@ -1131,30 +1073,35 @@ function updateGame() {
         }
         if (remTime == 15 && level == 1 && bossEntry == 1) {
             boss.push(new boss1(875, 200, 1, 1.2));
+            bossEntrySound.start();
             bossEntry = 0;
         } else if (remTime != 15) {
             bossEntry = 1;
         }
         if (remTime == 15 && level == 2 && bossEntry == 1) {
             boss.push(new boss2(875, 200, 1, 1.3));
+            bossEntrySound.start();
             bossEntry = 0;
         } else if (remTime != 15) {
             bossEntry = 1;
         }
         if (remTime == 15 && level == 3 && bossEntry == 1) {
             boss.push(new boss3(875, 200, 1, 1.3));
+            bossEntrySound.start();
             bossEntry = 0;
         } else if (remTime != 15) {
             bossEntry = 1;
         }
         if (remTime == 15 && level == 4 && bossEntry == 1) {
             boss.push(new boss4(875, 200, 1, 1.3));
+            bossEntrySound.start();
             bossEntry = 0;
         } else if (remTime != 15) {
             bossEntry = 1;
         }
         if (remTime == 15 && level == 5 && bossEntry == 1) {
             boss.push(new boss5(875, 200, 1, 1.3));
+            bossEntrySound.start();
             bossEntry = 0;
         } else if (remTime != 15) {
             bossEntry = 1;
