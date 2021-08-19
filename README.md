@@ -6,10 +6,10 @@ Space War
 
 # Sub-tasks
 
-1. Different types of aliens
-2. Count of bullet for each alien
-3. Bonus powers
-4. Bonus level or special level
+1. ~~Different types of aliens~~
+2. ~~Count of bullet for each alien~~
+3. ~~Bonus powers~~
+4. ~~Bonus level or special level~~
 
 # Idea
 
