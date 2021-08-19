@@ -6,11 +6,11 @@ Space War
 
 # Sub-tasks
 
-1. Spaceship and white spikes motion
-2. Game score
-3. Timer for diff game levels
-4. bonus points
-5. Add. features
+1. ~~Spaceship and white spikes motion~~
+2. ~~Game score~~
+3. ~~Timer for diff game levels~~
+4. ~~bonus points~~
+5. ~~Add. features~~
 
 # Idea
 
